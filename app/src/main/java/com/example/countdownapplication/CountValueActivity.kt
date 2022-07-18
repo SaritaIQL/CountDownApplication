@@ -1,13 +1,12 @@
 package com.example.countdownapplication
 
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.util.Log
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
+import com.example.countdownapplication.databinding.ActivityCountValueBinding
 import com.example.countdownapplication.databinding.ActivityMainBinding
 import com.example.countdownapplication.model.CountDownTimerModel
 import com.example.countdownapplication.model.CountDownTimerModelFactory
@@ -22,26 +21,28 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class MainActivity : AppCompatActivity() {
+class CountValueActivity : AppCompatActivity() {
+
     private lateinit var countDownTimerModel: CountDownTimerModel
     private val TAG : String= "MyApplication"
-    private lateinit var binding: ActivityMainBinding
+    private lateinit var binding: ActivityCountValueBinding
 
-    override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
-        super.onCreate(savedInstanceState, persistentState)
-        binding = DataBindingUtil.setContentView(this,R.layout.activity_main)
-//        startService(Intent(baseContext, OnClearFromRecentService::class.java))
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+//        setContentView(R.layout.activity_count_value)
+        binding = DataBindingUtil.setContentView(this,R.layout.activity_count_value)
 
         val factory = CountDownTimerModelFactory(this.lifecycle)
         countDownTimerModel= ViewModelProvider(this,factory).get(CountDownTimerModel::class.java)
-        binding.countViewModel = countDownTimerModel
-
+        binding.countDownTimerModel = countDownTimerModel
         binding.lifecycleOwner=this
         Log.e(TAG,"Current Value : ${MyApplication.Counter.toString()}")
         val appOpenCount = SharedPreferenceManager.getInt(AppConstants.appCount,0)
 
         val textChange = countDownTimerModel.getCurrentText()
         binding.btnTextTimer.text=textChange
+
+        getAllCourses()
 
         binding.btnTextTimer.setOnClickListener {
             val getChangeButton = countDownTimerModel.changeButtonText()
@@ -56,7 +57,6 @@ class MainActivity : AppCompatActivity() {
 
         }
 
-       // getAllCourses()
     }
 
     private fun getAllCourses() {
@@ -87,7 +87,7 @@ class MainActivity : AppCompatActivity() {
                     // below line is to add our data from api to our array list.
 //                        recyclerDataArrayList = response.body()
 
-                    Log.e("Api Data : ","Data is : ${response.body().toString()}")
+                    Log.d("Api Data : ","Data is : ${response.body().toString()}")
 
                     // below line we are running a loop to add data to our adapter class.
 //                        for (i in 0 until recyclerDataArrayList.size()) {
@@ -106,7 +106,8 @@ class MainActivity : AppCompatActivity() {
                 }                }
 
             override fun onFailure(call: Call<ArrayList<CommentResponseItem>>, t: Throwable) {
-                Toast.makeText(this@MainActivity, "Fail to get data", Toast.LENGTH_SHORT).show()
+                Log.e("Api data","Fail to get data ${t.toString()}")
+                Toast.makeText(this@CountValueActivity, "Fail to get data ${t.toString()}", Toast.LENGTH_SHORT).show()
             }
         })
 

@@ -6,7 +6,9 @@
         <entry key="app/src/main/res/drawable-anydpi-v24/ic_schedule_white.xml" value="0.156" />
         <entry key="app/src/main/res/drawable/ic_done_white_24dp.xml" value="0.156" />
         <entry key="app/src/main/res/drawable/toast_rounded.xml" value="0.156" />
+        <entry key="app/src/main/res/layout/activity_count_value.xml" value="0.22916666666666666" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.22916666666666666" />
+        <entry key="app/src/main/res/layout/temp.xml" value="0.228125" />
       </map>
     </option>
   </component>

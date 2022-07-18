@@ -2,6 +2,7 @@ package com.example.countdownapplication.model
 
 import androidx.lifecycle.*
 import com.example.countdownapplication.util.AppConstants
+import com.example.countdownapplication.util.MyApplication
 import com.example.countdownapplication.util.SharedPreferenceManager
 
 class CountDownTimerModel(val lifecycle: Lifecycle) : ViewModel() {
@@ -10,10 +11,14 @@ class CountDownTimerModel(val lifecycle: Lifecycle) : ViewModel() {
       var strCurrentTimer = MutableLiveData<String>()
 
     init {
-        strCurrentTimer.value = "Start"
+        strCurrentTimer.value = MyApplication.Counter.toString()
     }
 
-
+    fun changesCounterValue () : String {
+        val getCounterValue = MyApplication.Counter
+        strCurrentTimer.value = getCounterValue.toString()
+        return strCurrentTimer.value!!
+    }
     fun changeButtonText() : String{
         if(SharedPreferenceManager.getString(AppConstants.btnTitle,"").equals(AppConstants.startTime)){
             SharedPreferenceManager.putInt(AppConstants.appCount,1)
