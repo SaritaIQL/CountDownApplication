@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">CountDownApplication</string>
+    <string name="notification_subtitle">Surprise!</string>
+    <string name="notification_title">Reminder</string>
+
+    <string name="notification_schedule_title">Schedule notification:\u00a0</string>
+
+    <string name="text_error_network">No Internet connection!!!</string>
+    <string name="skip">Skip</string>
+    <string name="text_error_internal_server">Internal server error. Please retry!!!</string>
+    <string name="text_error_timeout">Sorry, We lost you. Please retry!!!</string>
+    <string name="text_error_connection">Look a like we lost you for a moment. Please retry!!!</string>
+    <string name="internet_message_alert">Please Check Your internet connection</string>
+</resources>
