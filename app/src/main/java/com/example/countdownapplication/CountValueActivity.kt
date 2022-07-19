@@ -60,16 +60,16 @@ class CountValueActivity : AppCompatActivity() {
             var getChangeButton = countDownTimerModel.changeButtonText()
             binding.btnTextTimer.text=countDownTimerModel.btnTitle.value
             getChangeButton = binding.btnTextTimer.text.toString()
-            Log.e("btnValue","Get the current btn value : ${getChangeButton.toString()} : ${countDownTimerModel.btnTitle.value}")
+//            Log.e("btnValue","Get the current btn value : ${getChangeButton.toString()} : ${countDownTimerModel.btnTitle.value}")
 
             if(getChangeButton.equals(AppConstants.startTime)){
 
-              //  MyApplication.appInstance.startTimer()
+                MyApplication.appInstance.stopTimer()
             }
             else{
-               // MyApplication.appInstance.stopTimer()
-            }
+                MyApplication.appInstance.startTimer()
 
+            }
         }
 
     }

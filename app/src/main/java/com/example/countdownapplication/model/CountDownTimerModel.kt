@@ -7,6 +7,9 @@ import com.example.countdownapplication.database.Comments
 import com.example.countdownapplication.util.AppConstants
 import com.example.countdownapplication.util.MyApplication
 import com.example.countdownapplication.util.SharedPreferenceManager
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
@@ -14,7 +17,8 @@ class CountDownTimerModel(private  val repository: CommentRepository, val lifecy
 
       var btnTitle = MutableLiveData<String>()
       var strCurrentTimer = MutableLiveData<String>()
-
+    val scope = MainScope() // could also use an other scope such as viewModelScope if available
+    var job: Job?= null
     private val statusMessage = MutableLiveData<Event<String>>()
     val message: LiveData<Event<String>>
         get() = statusMessage
@@ -23,10 +27,18 @@ class CountDownTimerModel(private  val repository: CommentRepository, val lifecy
         strCurrentTimer.value = MyApplication.Counter.toString()
     }
 
+
     fun changesCounterValue ()  {
-        val getCounterValue = MyApplication.Counter
-        Log.e("CounterValue","Count Value : ${getCounterValue} : ${MyApplication.Counter.toString()}")
-        strCurrentTimer.value = getCounterValue.toString()
+        var getCounterValue: Int =0
+        job = scope.launch {
+            while(true) {
+                getCounterValue= MyApplication.Counter
+                Log.e("CounterValue","Count Value : ${getCounterValue} : ${MyApplication.Counter.toString()}")
+                strCurrentTimer.value = getCounterValue.toString()
+                delay(1000)
+            }
+        }
+
     }
 
     fun changeButtonText() : String{
@@ -54,21 +66,20 @@ class CountDownTimerModel(private  val repository: CommentRepository, val lifecy
 
         if(appOpenCount.equals(0)){
             btnTitle.value=AppConstants.startTime
-            SharedPreferenceManager.putString(AppConstants.btnTitle,AppConstants.startTime)
         }
         else {
             if(SharedPreferenceManager.getString(AppConstants.btnTitle,"").equals(AppConstants.startTime)){
                 btnTitle.value=AppConstants.startTime
-                SharedPreferenceManager.putString(AppConstants.btnTitle,AppConstants.startTime)
-               // changesCounterValue()
+                changesCounterValue()
             }
             else{
-               // changesCounterValue()
+                changesCounterValue()
                 btnTitle.value=AppConstants.stopTime
-                SharedPreferenceManager.putString(AppConstants.btnTitle,AppConstants.stopTime)
             }
 
         }
+        SharedPreferenceManager.putString(AppConstants.btnTitle,btnTitle.value.toString())
+
         return btnTitle.value!!
     }
 

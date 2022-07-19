@@ -100,6 +100,9 @@ class  MyApplication : Application(), Application.ActivityLifecycleCallbacks, Li
         // handler.postDelayed(runnable, 1000)
     }
 
+    fun returnUpdate(): Int {
+        return Counter
+    }
 
 
     fun startTimer() {
@@ -109,6 +112,7 @@ class  MyApplication : Application(), Application.ActivityLifecycleCallbacks, Li
         job = scope.launch {
             while(true) {
                 Counter = Counter + 1
+                returnUpdate()
                 Log.e(TAG, "************* afficher +${Counter.toString()}")
                 SharedPreferenceManager.putInt(AppConstants.counterValue, Counter)
                 delay(1000)
