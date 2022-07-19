@@ -38,13 +38,12 @@ class CountDownTimerModel(private  val repository: CommentRepository, val lifecy
         else{
             if(SharedPreferenceManager.getString(AppConstants.btnTitle,"").equals(AppConstants.startTime)){
                 btnTitle.value= AppConstants.stopTime
-                SharedPreferenceManager.putString(AppConstants.btnTitle, AppConstants.stopTime)
             }
             else{
                 btnTitle.value= AppConstants.startTime
-                SharedPreferenceManager.putString(AppConstants.btnTitle, AppConstants.startTime)
             }
         }
+        SharedPreferenceManager.putString(AppConstants.btnTitle,  btnTitle.value.toString())
 
         return btnTitle.value!!
     }

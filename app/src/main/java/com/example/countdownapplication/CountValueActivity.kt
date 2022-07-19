@@ -57,9 +57,10 @@ class CountValueActivity : AppCompatActivity() {
         getAllCourses()
 
         binding.btnTextTimer.setOnClickListener {
-            val getChangeButton = countDownTimerModel.changeButtonText()
-            binding.btnTextTimer.text=getChangeButton
-            Log.e("btnValue","Get the current btn value : ${textChange.toString()}")
+            var getChangeButton = countDownTimerModel.changeButtonText()
+            binding.btnTextTimer.text=countDownTimerModel.btnTitle.value
+            getChangeButton = binding.btnTextTimer.text.toString()
+            Log.e("btnValue","Get the current btn value : ${getChangeButton.toString()} : ${countDownTimerModel.btnTitle.value}")
 
             if(getChangeButton.equals(AppConstants.startTime)){
 
