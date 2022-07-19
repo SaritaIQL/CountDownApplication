@@ -23,11 +23,12 @@ class CountDownTimerModel(private  val repository: CommentRepository, val lifecy
         strCurrentTimer.value = MyApplication.Counter.toString()
     }
 
-    fun changesCounterValue () : String {
+    fun changesCounterValue ()  {
         val getCounterValue = MyApplication.Counter
+        Log.e("CounterValue","Count Value : ${getCounterValue} : ${MyApplication.Counter.toString()}")
         strCurrentTimer.value = getCounterValue.toString()
-        return strCurrentTimer.value!!
     }
+
     fun changeButtonText() : String{
         if(SharedPreferenceManager.getString(AppConstants.btnTitle,"").equals(AppConstants.startTime)){
             SharedPreferenceManager.putInt(AppConstants.appCount,1)
@@ -53,8 +54,10 @@ class CountDownTimerModel(private  val repository: CommentRepository, val lifecy
             if(SharedPreferenceManager.getString(AppConstants.btnTitle,"").equals(AppConstants.startTime)){
                 btnTitle.value=AppConstants.startTime
                 SharedPreferenceManager.putString(AppConstants.btnTitle,AppConstants.startTime)
+                changesCounterValue()
             }
             else{
+                changesCounterValue()
                 btnTitle.value=AppConstants.stopTime
                 SharedPreferenceManager.putString(AppConstants.btnTitle,AppConstants.stopTime)
             }

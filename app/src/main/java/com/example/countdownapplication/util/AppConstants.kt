@@ -16,4 +16,7 @@ object  AppConstants {
     val appCount : String ="AppCount"
 
     val counterValue : String = "CounterValue"
+
+    val isClickStartTime : String ="isClickStartTime"
+
 }

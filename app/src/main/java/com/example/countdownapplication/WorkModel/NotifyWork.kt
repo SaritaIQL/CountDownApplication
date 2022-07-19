@@ -15,7 +15,9 @@ import androidx.work.WorkerParameters
 import com.example.countdownapplication.Extention.vectorToBitmap
 import com.example.countdownapplication.MainActivity
 import com.example.countdownapplication.R
+import com.example.countdownapplication.util.AppConstants
 import com.example.countdownapplication.util.MyApplication
+import com.example.countdownapplication.util.SharedPreferenceManager
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.delay
@@ -30,14 +32,17 @@ class NotifyWork(context: Context, params: WorkerParameters) : Worker(context, p
 
     fun startTimer() {
         // Update the elapsed time every second.
+        val getIsTimerClick = SharedPreferenceManager.getBoolean(AppConstants.isClickStartTime,false)
 
-        MyApplication.job = MyApplication.scope.launch {
-            while(true) {
-                MyApplication.Counter = MyApplication.Counter + 1
+        if(getIsTimerClick){
+            MyApplication.job = MyApplication.scope.launch {
+                while(true) {
+                    MyApplication.Counter = MyApplication.Counter + 1
 //                Log.e(TAG, "************* afficher +${MyApplication.Counter.toString()}")
-                sendNotification(MyApplication.Counter)
+                    sendNotification(MyApplication.Counter)
 
-                delay(1000)
+                    delay(1000)
+                }
             }
         }
     }
