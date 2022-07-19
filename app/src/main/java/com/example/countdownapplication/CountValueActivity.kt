@@ -47,23 +47,27 @@ class CountValueActivity : AppCompatActivity() {
         binding.countDownTimerModel = countDownTimerModel
         binding.lifecycleOwner=this
         Log.e(TAG,"Current Value : ${MyApplication.Counter.toString()}")
-        val appOpenCount = SharedPreferenceManager.getInt(AppConstants.appCount,0)
 
         val textChange = countDownTimerModel.getCurrentText()
+        Log.e("btnValue","Get the init value  btn value : ${textChange.toString()}")
+
         binding.btnTextTimer.text=textChange
+        SharedPreferenceManager.putInt(AppConstants.appCount,1)
 
         getAllCourses()
 
         binding.btnTextTimer.setOnClickListener {
             val getChangeButton = countDownTimerModel.changeButtonText()
+            binding.btnTextTimer.text=getChangeButton
+            Log.e("btnValue","Get the current btn value : ${textChange.toString()}")
+
             if(getChangeButton.equals(AppConstants.startTime)){
 
-                MyApplication.appInstance.startTimer()
+              //  MyApplication.appInstance.startTimer()
             }
             else{
-                MyApplication.appInstance.stopTimer()
+               // MyApplication.appInstance.stopTimer()
             }
-            binding.btnTextTimer.text=getChangeButton
 
         }
 
@@ -88,40 +92,24 @@ class CountValueActivity : AppCompatActivity() {
                 ) {
                     if (response.isSuccessful()) {
 
-                        // on successful we are hiding our progressbar.
 
-                        // below line is to add our data from api to our array list.
-//                        recyclerDataArrayList = response.body()
-
-                        Log.d("Api Data : ","Data is : ${response.body().toString()}")
+                      //  Log.d("Api Data : ","Data is : ${response.body().toString()}")
 
                         val getData = response.body()
                         val arrayList : ArrayList<CommentResponseItem> = arrayListOf()
 
                         arrayList.addAll(getData!!)
 
-                        Log.d("Api Data : ","Data is : ${arrayList.size.toString()}")
+                     //   Log.d("Api Data : ","Data is : ${arrayList.size.toString()}")
 
                         for( data in arrayList){
                             countDownTimerModel.insertAllData(Comments(0,data.postId,data.id,data.name,data.email,data.body))
                         }
 
                         initRecyclerView()
-                        // below line we are running a loop to add data to our adapter class.
-//                        for (i in 0 until recyclerDataArrayList.size()) {
-//                            recyclerViewAdapter =
-//                                RecyclerViewAdapter(recyclerDataArrayList, this@MainActivity)
-//
-//                            // below line is to set layout manager for our recycler view.
-//                            val manager = LinearLayoutManager(this@MainActivity)
-//
-//                            // setting layout manager for our recycler view.
-//                            courseRV.setLayoutManager(manager)
-//
-//                            // below line is to set adapter to our recycler view.
-//                            courseRV.setAdapter(recyclerViewAdapter)
-//                        }
-                    }                }
+
+                    }
+                }
 
                 override fun onFailure(call: Call<ArrayList<CommentResponseItem>>, t: Throwable) {
                     Log.e("Api data","Fail to get data ${t.toString()}")

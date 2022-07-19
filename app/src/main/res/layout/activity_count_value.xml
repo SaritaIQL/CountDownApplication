@@ -27,7 +27,7 @@
             android:id="@+id/txtCounterValue"
             android:layout_width="0dp"
             android:layout_height="18dp"
-            android:text="@{countDownTimerModel.strCurrentTimer}"
+            android:text="@{countDownTimerModel.strCurrentTimer.toString()}"
             android:layout_marginEnd="15dp"
             app:layout_constraintBottom_toBottomOf="@+id/btnTextTimer"
             app:layout_constraintEnd_toStartOf="@+id/btnTextTimer"
