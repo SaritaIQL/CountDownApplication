@@ -68,7 +68,6 @@ class CountValueActivity : AppCompatActivity() {
             }
             else{
                 MyApplication.appInstance.startTimer()
-
             }
         }
 

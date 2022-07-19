@@ -13,4 +13,7 @@ interface CommentsDAO {
 
     @Query("SELECT * FROM comments_data_table")
     fun getAllComments(): Flow<List<Comments>>
+
+    @Query("DELETE FROM comments_data_table")
+    fun deleteAllRecord()
 }
