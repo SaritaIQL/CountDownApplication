@@ -14,4 +14,6 @@ object  AppConstants {
     val appOpenCountInt : Int  = 0
 
     val appCount : String ="AppCount"
+
+    val counterValue : String = "CounterValue"
 }

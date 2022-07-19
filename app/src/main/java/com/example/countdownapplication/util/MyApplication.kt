@@ -110,7 +110,7 @@ class  MyApplication : Application(), Application.ActivityLifecycleCallbacks, Li
             while(true) {
                 Counter = Counter + 1
                 Log.e(TAG, "************* afficher +${Counter.toString()}")
-
+                SharedPreferenceManager.putInt(AppConstants.counterValue, Counter)
                 delay(1000)
             }
         }

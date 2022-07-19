@@ -32,29 +32,6 @@ class MainActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this,R.layout.activity_main)
 //        startService(Intent(baseContext, OnClearFromRecentService::class.java))
 
-        val factory = CountDownTimerModelFactory(this.lifecycle)
-        countDownTimerModel= ViewModelProvider(this,factory).get(CountDownTimerModel::class.java)
-        binding.countViewModel = countDownTimerModel
-
-        binding.lifecycleOwner=this
-        Log.e(TAG,"Current Value : ${MyApplication.Counter.toString()}")
-        val appOpenCount = SharedPreferenceManager.getInt(AppConstants.appCount,0)
-
-        val textChange = countDownTimerModel.getCurrentText()
-        binding.btnTextTimer.text=textChange
-
-        binding.btnTextTimer.setOnClickListener {
-            val getChangeButton = countDownTimerModel.changeButtonText()
-            if(getChangeButton.equals(AppConstants.startTime)){
-
-                MyApplication.appInstance.startTimer()
-            }
-            else{
-                MyApplication.appInstance.stopTimer()
-            }
-            binding.btnTextTimer.text=getChangeButton
-
-        }
 
        // getAllCourses()
     }
