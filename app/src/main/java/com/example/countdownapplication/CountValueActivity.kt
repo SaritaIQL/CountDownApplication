@@ -54,6 +54,16 @@ class CountValueActivity : AppCompatActivity() {
         binding.btnTextTimer.text=textChange
         SharedPreferenceManager.putInt(AppConstants.appCount,1)
 
+        binding.btnDelete.setOnClickListener {
+            countDownTimerModel.getAllRecord().observe(this, Observer {
+               if (it.size > 0 || it != null){
+                   countDownTimerModel.deleteAllData()
+               }else{
+                   Log.e("Error", "error")
+               }
+            })
+        }
+
         getAllCourses()
 
         binding.btnTextTimer.setOnClickListener {
@@ -135,6 +145,7 @@ class CountValueActivity : AppCompatActivity() {
 
     private fun displaySubscribersList() {
         countDownTimerModel.getAllRecord().observe(this, Observer {
+            Log.e("list size", it.size.toString())
             adapter.setList(it)
             adapter.notifyDataSetChanged()
         })

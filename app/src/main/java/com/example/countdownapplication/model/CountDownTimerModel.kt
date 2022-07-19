@@ -89,6 +89,10 @@ class CountDownTimerModel(private  val repository: CommentRepository, val lifecy
         }
     }
 
+    fun deleteAllData() = viewModelScope.launch {
+       repository.deleteAll()
+    }
+
     fun insertAllData(comments: Comments) = viewModelScope.launch {
         val rowId = repository.insert(comments)
         if(rowId> -1 ){
