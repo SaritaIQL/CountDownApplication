@@ -35,7 +35,7 @@ class  MyApplication : Application(), Application.ActivityLifecycleCallbacks, Li
     @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
     fun onAppBackgrounded() {
         //App in background
-
+        SharedPreferenceManager.putBoolean(AppConstants.isAppBackground,true)
         Log.e(TAG, "************* backgrounded")
         Log.e(TAG, "************* ${isActivityVisible()}")
         val oneTimeWorkRequest = OneTimeWorkRequest.Builder(
@@ -44,14 +44,15 @@ class  MyApplication : Application(), Application.ActivityLifecycleCallbacks, Li
 
         WorkManager.getInstance().enqueue(oneTimeWorkRequest)
     }
-//
-//    @OnLifecycleEvent(Lifecycle.Event.ON_START)
-//    fun onAppForegrounded() {
-//
-//        Log.e(TAG, "************* foregrounded")
-//        Log.e(TAG, "************* ${isActivityVisible()}")
-//        // App in foreground
-//    }
+
+    @OnLifecycleEvent(Lifecycle.Event.ON_START)
+    fun onAppForegrounded() {
+        SharedPreferenceManager.putBoolean(AppConstants.isAppBackground,false)
+
+        Log.e(TAG, "************* foregrounded")
+        Log.e(TAG, "************* ${isActivityVisible()}")
+        // App in foreground
+    }
 
     companion object{
         lateinit var appContext: Context

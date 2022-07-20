@@ -1,17 +1,16 @@
 package com.example.countdownapplication.model
 
+import android.app.Activity
 import android.util.Log
 import androidx.lifecycle.*
+import com.example.countdownapplication.database.CommentDatabase
 import com.example.countdownapplication.database.CommentRepository
 import com.example.countdownapplication.database.Comments
 import com.example.countdownapplication.util.AppConstants
 import com.example.countdownapplication.util.MyApplication
 import com.example.countdownapplication.util.SharedPreferenceManager
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.delay
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
 
 class CountDownTimerModel(private  val repository: CommentRepository, val lifecycle: Lifecycle) : ViewModel() {
 
@@ -103,4 +102,7 @@ class CountDownTimerModel(private  val repository: CommentRepository, val lifecy
 
         }
     }
+
+
+
 }

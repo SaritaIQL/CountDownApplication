@@ -19,4 +19,6 @@ object  AppConstants {
 
     val isClickStartTime : String ="isClickStartTime"
 
+    val isAppBackground : String ="isAppBackground"
+
 }

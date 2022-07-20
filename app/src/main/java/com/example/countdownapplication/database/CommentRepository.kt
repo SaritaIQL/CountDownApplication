@@ -7,4 +7,8 @@ class CommentRepository (private  val dao: CommentsDAO){
         return dao.insertSubscriber(comments)
     }
 
+     fun deleteAllRecord(){
+        return dao.deleteAllRecord()
+    }
+
 }

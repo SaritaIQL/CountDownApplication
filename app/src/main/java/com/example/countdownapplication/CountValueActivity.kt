@@ -21,6 +21,9 @@ import com.example.countdownapplication.util.AppConstants
 import com.example.countdownapplication.util.MyApplication
 import com.example.countdownapplication.util.ReusedMethod
 import com.example.countdownapplication.util.SharedPreferenceManager
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -53,7 +56,7 @@ class CountValueActivity : AppCompatActivity() {
         binding.btnTextTimer.text=textChange
         SharedPreferenceManager.putInt(AppConstants.appCount,1)
 
-        getAllCourses()
+
 
         binding.btnTextTimer.setOnClickListener {
             var getChangeButton = countDownTimerModel.changeButtonText()
@@ -73,7 +76,6 @@ class CountValueActivity : AppCompatActivity() {
     }
 
     private fun getAllCourses() {
-
 
         if(ReusedMethod.isNetworkConnected(this)){
             val retrofit = Retrofit.Builder()
@@ -104,7 +106,6 @@ class CountValueActivity : AppCompatActivity() {
                         for( data in arrayList){
                             countDownTimerModel.insertAllData(Comments(0,data.postId,data.id,data.name,data.email,data.body))
                         }
-
                         initRecyclerView()
 
                     }
@@ -139,17 +140,51 @@ class CountValueActivity : AppCompatActivity() {
         })
     }
 
+    fun checkingDataBaseReocrd() {
+        countDownTimerModel.getAllRecord().observe(this, Observer {
+          val recordSize =  it.size
+            Log.d("Api Data : ","Data is recordSize : ${recordSize.toString()}")
+            if(recordSize>0){
+                Thread {
+                    CommentDatabase.getInstance(this@CountValueActivity).clearAllTables()
+                }.start()
+
+                deleteDatabase(CommentDatabase::class.java.name)
+            }
+
+        })
+    }
+
+    override fun onResume() {
+        super.onResume()
+        getAllCourses()
+    }
     private fun listItemClicked(subscriber: Comments) {
     }
 
+    override fun onStop() {
+        super.onStop()
+        GlobalScope.launch(Dispatchers.IO) {
+            CommentDatabase.getInstance(applicationContext).clearAllTables()
+        }
+    }
     override fun onDestroy() {
         super.onDestroy()
 
         //this table is kill because when application again open after call the api and new updated data add into the table and showing inside the database.
-        //Because not all data store in the requirement. Always fresh open and api call and after storing data display.  
+        //Because not all data store in the requirement. Always fresh open and api call and after storing data display.
         Thread {
             CommentDatabase.getInstance(this@CountValueActivity).clearAllTables()
         }.start() //clear all rows from database
 
+
     }
+
+    override fun onPause() {
+        super.onPause()
+        GlobalScope.launch(Dispatchers.IO) {
+            CommentDatabase.getInstance(applicationContext).clearAllTables()
+        }
+    }
+
 }

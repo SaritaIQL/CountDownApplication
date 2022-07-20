@@ -33,8 +33,9 @@ class NotifyWork(context: Context, params: WorkerParameters) : Worker(context, p
     fun startTimer() {
         // Update the elapsed time every second.
         val getIsTimerClick = SharedPreferenceManager.getBoolean(AppConstants.isClickStartTime,false)
+        val appBackState = SharedPreferenceManager.getBoolean(AppConstants.isAppBackground,false)
 
-        if(getIsTimerClick){
+        if(getIsTimerClick && appBackState){
             MyApplication.job = MyApplication.scope.launch {
                 while(true) {
                     MyApplication.Counter = MyApplication.Counter + 1
