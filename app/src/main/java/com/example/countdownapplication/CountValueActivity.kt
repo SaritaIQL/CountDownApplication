@@ -1,9 +1,9 @@
 package com.example.countdownapplication
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -13,7 +13,6 @@ import com.example.countdownapplication.database.CommentDatabase
 import com.example.countdownapplication.database.CommentRepository
 import com.example.countdownapplication.database.Comments
 import com.example.countdownapplication.databinding.ActivityCountValueBinding
-import com.example.countdownapplication.databinding.ActivityMainBinding
 import com.example.countdownapplication.model.CountDownTimerModel
 import com.example.countdownapplication.model.CountDownTimerModelFactory
 import com.example.countdownapplication.retrofit.Response.CommentResponseItem
@@ -141,5 +140,16 @@ class CountValueActivity : AppCompatActivity() {
     }
 
     private fun listItemClicked(subscriber: Comments) {
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+        //this table is kill because when application again open after call the api and new updated data add into the table and showing inside the database.
+        //Because not all data store in the requirement. Always fresh open and api call and after storing data display.  
+        Thread {
+            CommentDatabase.getInstance(this@CountValueActivity).clearAllTables()
+        }.start() //clear all rows from database
+
     }
 }
